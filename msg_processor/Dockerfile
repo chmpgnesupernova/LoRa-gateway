@@ -4,7 +4,7 @@ WORKDIR /app
 COPY msg_processor/ ./msg_processor/
 COPY include/ ./include/
 
-RUN g++ -std=c++17 -O2 ./msg_processor/message_processor.cpp -o /app/message_processor \
+RUN g++ -std=c++17 -O2 ./msg_processor/message_processor.cpp ./include/serialib.cpp -o /app/message_processor \
     && strip /app/message_processor
 
 FROM alpine:latest

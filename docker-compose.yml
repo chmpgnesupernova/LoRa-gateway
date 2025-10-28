@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  message-processor:
+    image: message-processor:0.0.1
+    volumes:
+      - ./data:/data
+    devices:
+      - "/dev/ttyACM0:/dev/ttyACM0"  # Arduino, ESP32 등
+    environment:
+      - SERIAL_PORT=/dev/ttyACM0
+      - BAUDRATE=9600
+    restart: "no"
+
+  html-generator:
+    image: html_generator:0.0.1
+    volumes:
+      - ./data:/data
+    restart: "no"
+    depends_on:
+      - message-processor

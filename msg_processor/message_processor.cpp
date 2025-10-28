@@ -1,6 +1,6 @@
 #include "message.h"
 #include "message_to_json.h"
-#include "serial_input.h"
+#include "serial.h"
 #include <vector>
 
 
@@ -36,8 +36,8 @@ int main(){
 
     //port 설정
     serialib serial;
-    char* port_name = (char*)"/dev/ttyUSB0";
-    int baud_rate = 9600;
+    const char* port_name = (char*)"/dev/ttyACM0";
+    const int baud_rate = 9600;
 
     if (!open_port(serial, port_name, baud_rate)) {
         std::cerr << "[SERIAL] failed to open port" << std::endl;
@@ -48,7 +48,7 @@ int main(){
     // counter 가 1000 이상일 경우 break
     int counter = 0;
 
-    while (counter < 1000){
+    while (counter < 100){
 
         std::string tmp_string = get_serial_message(serial);
 

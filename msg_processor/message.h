@@ -50,7 +50,7 @@ public:
         }
 
         file.close();
-        std::cout << "[CHECKER] not a subscriber, abort the message" << std::endl;
+        std::cout << "[CHECKER] not a subscriber, abort the message: " << id << std::endl;
         return false;
     }
 

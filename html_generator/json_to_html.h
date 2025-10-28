@@ -11,7 +11,7 @@
 bool convert_json_to_html(const std::string& _json_filename, const std::string& _html_filename) {
     std::ifstream json_file(_json_filename);
     if (!json_file.is_open()) {
-        std::cerr << "[ERROR]: JSON file not found at " << _json_filename << std::endl;
+        std::cerr << "[GENERATOR] Error, JSON file not found at " << _json_filename << std::endl;
         return false;
     }
 
@@ -20,14 +20,14 @@ bool convert_json_to_html(const std::string& _json_filename, const std::string& 
         json_file >> j;
     } 
     catch (const std::exception& e) {
-        std::cerr << "[ERROR]: parsing JSON: " << e.what() << std::endl;
+        std::cerr << "[GENERATOR] Error, parsing JSON: " << e.what() << std::endl;
         return false;
     }
 
     // write html file
     std::ofstream html_file(_html_filename);
     if (!html_file.is_open()) {
-        std::cerr << "[ERROR]: Could not open HTML file for writing at " << _html_filename << std::endl;
+        std::cerr << "[GENERATOR] Error, Could not open HTML file for writing at " << _html_filename << std::endl;
         return false;
     }
 
@@ -84,7 +84,7 @@ bool convert_json_to_html(const std::string& _json_filename, const std::string& 
     html_file << "</body>\n</html>\n";
 
     html_file.close();
-    std::cout << "Success: HTML file saved to " << _html_filename << std::endl;
+    std::cout << "[GENERATOR] Success, HTML file saved to " << _html_filename << std::endl;
     return true;
 }
 

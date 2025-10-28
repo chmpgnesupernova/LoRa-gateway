@@ -1,5 +1,6 @@
 #include "message.h"
 #include "message_to_json.h"
+#include "serial_input.h"
 #include <vector>
 
 
@@ -26,17 +27,38 @@ int main(){
     // message vector
     std::vector<message> message_vec;
 
+    // ID checker 인스턴스 생성
     ID_checker checker;
 
+    // file 경로 설정
     std::string json_filename = "../data/latest_messages.json";
     std::string subscriber_filename = "../data/subscriber.txt";
 
+    //port 설정
+    serialib serial;
+    char* port_name = (char*)"/dev/ttyUSB0";
+    int baud_rate = 9600;
+
+    if (!open_port(serial, port_name, baud_rate)) {
+        std::cerr << "[SERIAL] failed to open port" << std::endl;
+        return -1;
+    }
 
     // test string을 벡터로 추가, subscriber가 아닐경우 abort
-    for (auto elem : test_string){
+    // counter 가 1000 이상일 경우 break
+    int counter = 0;
 
-        std::string id = checker.slice_id(elem);
-        std::string pay = checker.slice_remain(elem);
+    while (counter < 1000){
+
+        std::string tmp_string = get_serial_message(serial);
+
+        if (tmp_string.empty()) {
+            counter++;
+            continue;
+        }
+
+        std::string id = checker.slice_id(tmp_string);
+        std::string pay = checker.slice_remain(tmp_string);
 
         bool is_subscriber = checker.check_id(subscriber_filename);
 
@@ -52,7 +74,13 @@ int main(){
                 message_vec[index].set_time();
             }
         }
+
+        counter ++;
+        
     }
+
+    close_port(serial);
+
 
     // test string 전부 추가 후 확인용 출력
     for (auto elem : message_vec) {

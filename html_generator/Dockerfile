@@ -4,8 +4,8 @@ WORKDIR /app
 COPY html_generator/ ./html_generator/
 COPY include/ ./include/
 
-RUN g++ -std=c++17 -O2 ./html_generator/html_generator.cpp -o /app/html_generator \
-    && strip /app/html_generator
+RUN g++ -std=c++17 -O2 ./html_generator/html_generator.cpp -o /app/html_generator_bin \
+    && strip /app/html_generator_bin
 
 FROM alpine:latest
 RUN apk add --no-cache \
@@ -13,7 +13,7 @@ RUN apk add --no-cache \
     libstdc++ \
     ca-certificates
 
-COPY --from=builder /app/html_generator /app/html_generator
+COPY --from=builder /app/html_generator_bin /app/html_generator
 
 WORKDIR /app
 

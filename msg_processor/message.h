@@ -35,7 +35,7 @@ public:
         std::ifstream file(_subscriber_filename);
 
         if (!file.is_open()){
-            std::cerr << "[ERROR]: cannot open the subscriber.txt" << std::endl;
+            std::cerr << "[CHECKER] Error, cannot open the subscriber.txt" << std::endl;
             return false;
         }
 
@@ -44,13 +44,13 @@ public:
         while(std::getline(file, line)) {
 
             if (line.find(id) != std::string::npos) {
-                std::cout << "[CHECKER]: subscriber found" << std::endl;
+                std::cout << "[CHECKER] subscriber found" << std::endl;
                 return true;
             }
         }
 
         file.close();
-        std::cout << "[CHECKER]: not a subscriber, abort the message" << std::endl;
+        std::cout << "[CHECKER] not a subscriber, abort the message" << std::endl;
         return false;
     }
 

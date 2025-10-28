@@ -25,16 +25,16 @@ void vector_to_json(const std::vector<message>& _message_vec, const std::string&
     try {
         std::ofstream file(_filename);
         if (!file.is_open()){
-            std::cerr << "[ERROR]: cannot open json file" << std::endl;
+            std::cerr << "[PROCESSOR] Error, cannot open json file" << std::endl;
             return;
         }
 
         file << json_vec.dump(4);
-        std::cout << "successfully saved " << _message_vec.size() << "messages to" << _filename << std::endl;
+        std::cout << "[PROCESSOR] successfully saved " << _message_vec.size() << "messages to" << _filename << std::endl;
     }
 
     catch (const std::exception& exeption) {
-        std::cerr << "[ERROR]: cannot saved json file, " << exeption.what() << std::endl; 
+        std::cerr << "[PROCESSOR] Error, cannot saved json file, " << exeption.what() << std::endl; 
     }
 
 

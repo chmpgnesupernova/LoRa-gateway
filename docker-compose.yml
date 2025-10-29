@@ -19,3 +19,11 @@ services:
     restart: "no"
     depends_on:
       - message-processor
+  
+  web:
+    image: httpd:latest
+    container_name: apache_server
+    ports: 
+      - "8081:80"  # 포트 8080으로 변경
+    volumes: 
+      - ./data/index.html:/usr/local/apache2/htdocs/index.html

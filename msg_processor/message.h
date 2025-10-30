@@ -55,6 +55,9 @@ public:
 
         while(std::getline(file, line)) {
 
+            // id가 "" 일 때 break, not a subscriber
+            if (id == "") break; 
+
             if (line.find(id) != std::string::npos) {
                 std::cout << "[CHECKER] subscriber found" << std::endl;
                 return true;

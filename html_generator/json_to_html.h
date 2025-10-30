@@ -31,9 +31,9 @@ bool convert_json_to_html(const std::string& _json_filename, const std::string& 
         return false;
     }
 
-    // HTML
+    // 여기부터 AI GENERATED !!
     html_file << "<!DOCTYPE html>\n";
-    html_file << "<html>\n<head>\n<title>JSON Data to HTML</title>\n";
+    html_file << "<html>\n<head>\n<title>Received Message</title>\n";
 
     html_file << "<style>table, th, td { border: 1px solid black; border-collapse: collapse; padding: 8px; }</style>\n";
     html_file << "</head>\n<body>\n";

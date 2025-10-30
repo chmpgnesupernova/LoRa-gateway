@@ -41,12 +41,13 @@ int main(){
     //while (counter < 100){
     while ( true ) {
 
+        std::cout << "[SERIAL] counter " << counter;
+
         if (serial.isDeviceOpen()) {
             message_bytes = serial.readString(received_string, '\n', 32, 1000);
             if (message_bytes > 0) {
                 received_string[message_bytes] = '\0';
-                std::cout << "[SERIAL] counter " << counter 
-                << ", received string: " << received_string << std::endl;
+                std::cout << "[SERIAL] received string: " << received_string << std::endl;
             }
         } else {
             std::cout << "[SERIAL] device is closed, exit" << std::endl;

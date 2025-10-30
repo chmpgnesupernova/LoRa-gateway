@@ -1,16 +1,8 @@
 #include "message.h"
 #include "message_to_json.h"
-#include "serial.h"
+#include "serial_input.h"
 #include <vector>
 
-
-std::vector<std::string> test_string = {
-    "ABC123:hello..........................",
-    "BBB333:hi.............................",
-    "CCC444:ki.............................",
-    "HME998:iamyujinshin...................."
-
-};
 
 int find_index_of_id(std::string& _id, std::vector<message>& _vec){
     int ret = -1;
@@ -36,30 +28,36 @@ int main(){
 
     //port 설정
     serialib serial;
-    const char* port_name = (char*)"/dev/ttyACM0";
-    const int baud_rate = 9600;
+    const char* port_name = "/dev/ttyACM0";
+    const unsigned int baud_rate = 9600;
 
-    if (!open_port(serial, port_name, baud_rate)) {
-        std::cerr << "[SERIAL] failed to open port" << std::endl;
-        return -1;
-    }
+    serial.openDevice(port_name, baud_rate);
 
-    // test string을 벡터로 추가, subscriber가 아닐경우 abort
-    // counter 가 1000 이상일 경우 break
+    // serial을 위한 변수들
     int counter = 0;
+    char received_string[32];
+    int message_bytes = -1;
 
-    while (counter < 100){
+    //while (counter < 100){
+    while ( true ) {
 
-        std::string tmp_string = get_serial_message(serial);
-
-        if (tmp_string.empty()) {
-            counter++;
-            continue;
+        if (serial.isDeviceOpen()) {
+            message_bytes = serial.readString(received_string, '\n', 32, 1000);
+            if (message_bytes > 0) {
+                received_string[message_bytes] = '\0';
+                std::cout << "[SERIAL] counter " << counter 
+                << ", received string: " << received_string << std::endl;
+            }
+        } else {
+            std::cout << "[SERIAL] device is closed, exit" << std::endl;
+            break;
         }
 
+        std::string tmp_string(received_string);
         std::string id = checker.slice_id(tmp_string);
         std::string pay = checker.slice_remain(tmp_string);
 
+        // test string을 벡터로 추가, subscriber가 아닐경우 abort
         bool is_subscriber = checker.check_id(subscriber_filename);
 
         if (is_subscriber) {
@@ -76,6 +74,8 @@ int main(){
         }
 
         counter ++;
+        vector_to_json(message_vec, json_filename);
+        std::cout << "==================================================" << std::endl;
         
     }
 
@@ -90,6 +90,5 @@ int main(){
     }
 
     // vector to json, json 파일로 변환
-    vector_to_json(message_vec, json_filename);
 
 }

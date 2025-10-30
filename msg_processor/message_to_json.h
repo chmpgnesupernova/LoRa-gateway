@@ -30,7 +30,7 @@ void vector_to_json(const std::vector<message>& _message_vec, const std::string&
         }
 
         file << json_vec.dump(4);
-        std::cout << "[PROCESSOR] successfully saved " << _message_vec.size() << "messages to" << _filename << std::endl;
+        std::cout << "[PROCESSOR] successfully saved, vector has " << _message_vec.size() << "messages in" << _filename << std::endl;
     }
 
     catch (const std::exception& exeption) {

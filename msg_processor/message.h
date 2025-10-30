@@ -18,6 +18,11 @@ public:
 
     // slice ID from input
     std::string slice_id(const std::string& _input_string) {
+        if (_input_string.length() < 6) {
+            std::cerr << "[CHECKER] Error, Input string too short for ID extraction: '" << _input_string << "' (length: " << _input_string.length() << ")" << std::endl;
+            id = "";
+            return "";
+        }
         std::string substr = _input_string.substr(0, 6);
         id = substr;
         return substr;
@@ -25,7 +30,14 @@ public:
 
     //slice remain from input
     std::string slice_remain(const std::string& _input_string){
-        std::string substr = _input_string.substr(7, 32);
+        if (_input_string.length() < 8) {  // 최소 8글자
+            std::cerr << "[CHECKER] Error, Input string too short for payload extraction: '" << _input_string << "' (length: " << _input_string.length() << ")" << std::endl;
+            remain = "";
+            return "";
+        }
+        
+        // 전체 문자열에서 7번째 위치부터 끝까지
+        std::string substr = _input_string.substr(7);
         remain = substr;
         return substr;
     }

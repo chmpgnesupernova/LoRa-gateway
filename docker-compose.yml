@@ -6,7 +6,7 @@ services:
     volumes:
       - ./data:/data
     devices:
-      - "/dev/ttyACM0:/dev/ttyACM0"  # Arduino, ESP32 등
+      - "/dev/ttyACM0:/dev/ttyACM0"  
     environment:
       - SERIAL_PORT=/dev/ttyACM0
       - BAUDRATE=9600
@@ -17,13 +17,13 @@ services:
     volumes:
       - ./data:/data
     restart: "no"
-    depends_on:
-      - message-processor
+    # depends_on:
+    #   - message-processor
   
   web:
     image: httpd:latest
     container_name: apache_server
     ports: 
-      - "8081:80"  # 포트 8080으로 변경
+      - "9366:80"  
     volumes: 
-      - ./data/index.html:/usr/local/apache2/htdocs/index.html
+      - ./data:/usr/local/apache2/htdocs
